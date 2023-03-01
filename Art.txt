@@ -1,0 +1,3 @@
+Art/ship.png*ship
+Art/enemy-ship.png*enemy
+Art/bullet.png*bullet
