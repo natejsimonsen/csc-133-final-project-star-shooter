@@ -31,7 +31,7 @@ public class Ship {
         this.rect = new Rect(300, 364, 300, 364, "ship");
         this.bullets = new ArrayList<>();
         this.bulletSprite = bulletSprite;
-        this.firingDelay = new stopWatchX(0);
+        this.firingDelay = new stopWatchX(500);
     }
 
     public ArrayList<Bullet> getBullets() {
@@ -43,19 +43,22 @@ public class Ship {
     }
 
     public void removeBullet(int bullet) {
+        if (bullet >= bullets.size())
+            return;
         bullets.remove(bullet);
     }
 
     public void fireBullet() {
         if (firingDelay.isTimeUp()) {
-            Sprite bullet = new Sprite(
-                                bulletSprite.getX(),
-                                bulletSprite.getY(),
-                                Sprite.deepCopy(bulletSprite.getSprite()),
-                                "bullet"
-                            );
-            if (bullets.size() < 40000)
-                bullets.add(new Bullet(rect.getX(), rect.getY(), rotation, bullet));
+            for (int i = -3; i < 3; i++) {
+                Sprite bullet = new Sprite(
+                        bulletSprite.getX(),
+                        bulletSprite.getY(),
+                        Sprite.deepCopy(bulletSprite.getSprite()),
+                        "bullet"
+                );
+                bullets.add(new Bullet(rect.getX(), rect.getY(), rotation + 3 * i, bullet));
+            }
             firingDelay.resetWatch();
         }
     }

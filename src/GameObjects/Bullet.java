@@ -21,7 +21,7 @@ public class Bullet {
         x = start_x;
         y = start_y;
         this.rotation = rotation;
-        int speed = 30;
+        int speed = 20;
 
         sprite.changeImage(rotate(sprite.getSprite(), rotation));
         double rotRad = Math.toRadians(rotation);

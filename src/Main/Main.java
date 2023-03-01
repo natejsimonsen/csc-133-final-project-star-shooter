@@ -1,6 +1,5 @@
 package Main;
 
-import Data.Rect;
 import Data.Sprite;
 import GameObjects.Bullet;
 import GameObjects.Enemy;
@@ -19,6 +18,7 @@ public class Main{
 	public static Enemy enemy;
 	public static char key;
 	public static ArrayList<Integer> bulletsToRemove = new ArrayList<>();
+	public static ArrayList<Bullet> bullets;
 
 	public static void main(String[] args) {
 		Control ctrl = new Control();
@@ -37,6 +37,7 @@ public class Main{
 		enemy = new Enemy(enemySprite);
 
 		background = new Sprite(0, 0, backgroundBuffer, "background");
+		bullets = ship.getBullets();
 	}
 	
 	public static void update(Control ctrl) {
@@ -62,8 +63,6 @@ public class Main{
 		if (enemy.getRect().isCollision(ship.getX() + 32, ship.getY() + 32))
 			ctrl.drawString(20, 80, "You Lose", Color.WHITE);
 
-		ArrayList<Bullet> bullets = ship.getBullets();
-
 		for (int i = 0; i < bullets.size(); i++) {
 			Bullet bullet = bullets.get(i);
 			boolean remove = false;
@@ -79,10 +78,13 @@ public class Main{
 				bulletsToRemove.add(i);
 		}
 
-		if (bulletsToRemove.size() > 0)
+		if (bulletsToRemove.size() > 0) {
+			int num_removed = 0;
 			for (int i : bulletsToRemove) {
-				ship.removeBullet(i);
+				ship.removeBullet(i - num_removed);
+				num_removed++;
 			}
+		}
 		bulletsToRemove.clear();
 
 		ctrl.addSpriteToFrontBuffer(ship.getX(), ship.getY(), ship.getImage());
